@@ -21,6 +21,7 @@ let allServicePrices;
 //блок описания функций
 
 let getAllServicePrices = function (servicePrice1, servicePrice2) {
+
   allServicePrices = servicePrice1 + servicePrice2;
   console.log(allServicePrices);
 };
@@ -63,15 +64,8 @@ let getServicePercentPrices = function (fullPrice, rollback) {
 console.log(typeof title);
 console.log(typeof fullPrice);
 console.log(typeof adaptive);
-// console.log(screens.length);
-// console.log(`Стоимость верстки экранов ${screenPrice} долларов\nСтоимость разработки сайта ${fullPrice} долларов`);
 console.log(screens.toLowerCase().split(', '));
-// console.log(`Процент отката посреднику за работу ${rollbackPrecent} долларов`);
-// console.log(servicePercentPrice);
-// getAllServicePrices(servicePrice1, servicePrice2);
-// getFullPrice(screenPrice, allServicePrices);
-
 console.log(getTitle(title));
-// getServicePercentPrices();
+
 getRollbackMessage();
 getServicePercentPrices(fullPrice, rollback);
