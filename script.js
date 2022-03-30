@@ -21,22 +21,24 @@ let allServicePrices;
 //блок описания функций
 
 let getAllServicePrices = function (servicePrice1, servicePrice2) {
-  allServicePrices = servicePrice1 + servicePrice2;
-  console.log(allServicePrices);
+  return servicePrice1 + servicePrice2;
+
 };
+
+allServicePrices = getAllServicePrices(servicePrice1, servicePrice2);
 
 
 function getFullPrice(screenPrice, allServicePrices) {
-  fullPrice = screenPrice + allServicePrices;
-  console.log(fullPrice);
+  return screenPrice + allServicePrices;
 }
 
+fullPrice = getFullPrice(screenPrice, allServicePrices);
 
 
 function getTitle(title) {
 
-  title = title.trim().toLowerCase();
-  return title[0].toUpperCase();
+  title = title.trim();
+  return title[0].toUpperCase() + title.toLowerCase();
 }
 
 //функциональный блок
@@ -54,9 +56,11 @@ function getRollbackMessage() {
 }
 
 let getServicePercentPrices = function (fullPrice, rollback) {
-  servicePercentPrice = fullPrice - (fullPrice * (rollback / 100));
-  console.log(servicePercentPrice);
+  return fullPrice - (fullPrice * (rollback / 100));
+  // console.log(servicePercentPrice);
 };
+
+servicePercentPrice = getServicePercentPrices(fullPrice, rollback);
 
 //мусорный блок
 
@@ -70,8 +74,9 @@ console.log(screens.toLowerCase().split(', '));
 // console.log(servicePercentPrice);
 // getAllServicePrices(servicePrice1, servicePrice2);
 // getFullPrice(screenPrice, allServicePrices);
-
+console.log(allServicePrices);
+console.log(fullPrice);
 console.log(getTitle(title));
 // getServicePercentPrices();
 getRollbackMessage();
-getServicePercentPrices(fullPrice, rollback);
+console.log(servicePercentPrice);
