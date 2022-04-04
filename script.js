@@ -1,112 +1,104 @@
 'use strict';
-// //блок объявления переменных
-// let title;
-// let screens;
-// let screenPrice;
-// let adaptive;
-// let fullPrice;
-// let servicePercentPrice;
-// let allServicePrices;
-// let service1;
-// let service2;
-// let servicePrice;
-// let rollback = 25;
 
-// //блок описания функций
+const appData = {
 
-// const isNumber = (num) => {
-//   return !isNaN(parseFloat(num)) && isFinite(num); //лучшая проверка на число 
-// };
+  title: '',
+  screens: '',
+  screenPrice: 0,
+  adaptive: true,
+  fullPrice: 0,
+  servicePercentPrice: 0,
+  allServicePrices: 0,
+  service1: '',
+  service2: '',
+  rollback: 25,
+  start: () => {
+    appData.asking();
+    appData.allServicePrices = appData.getAllServicePrices();
+    appData.fullPrice = appData.getFullPrice();
+    appData.servicePercentPrice = appData.getServicePercentPrices();
+    appData.title = appData.getTitle();
+    appData.logger();
 
-// const asking = () => {
-//   title = prompt('Как называется ваш проект?', 'Калькулятор Верстки');
-//   screens = prompt('Какие типы экранов нужно разработать?', 'Простые, Сложные, Интерактивные');
-//   adaptive = confirm('Нужен ли адаптив на сайте?');
-// };
+  },
+  asking: () => {
+    appData.title = prompt('Как называется ваш проект?', 'Калькулятор Верстки');
+    appData.screens = prompt('Какие типы экранов нужно разработать?', 'Простые, Сложные, Интерактивные');
 
-// const getScreenPrice = () => {
-//   do {
-//     screenPrice = +prompt('Сколько будет стоить данная работа?');
-//   } while (!isNumber(screenPrice)); {
-//     return;
-//   }
-// };
+    do {
+      appData.screenPrice = +prompt('Сколько будет стоить данная работа?');
+    }
+    while (!appData.isNumber(appData.screenPrice));
 
-// const getAllServicePrices = () => {
-//   let sum = 0;
+    appData.adaptive = confirm('Нужен ли адаптив на сайте?');
+  },
 
-//   for (let i = 0; i < 2; i++) {
+  isNumber: (num) => {
+    return !isNaN(parseFloat(num)) && isFinite(num); //лучшая проверка на число 
+  },
 
-//     if (i === 0) {
-//       service1 = prompt('Какой дополнительный тип услуги нужен?');
-//     } else if (i === 1) {
-//       service2 = prompt('Какой дополнительный тип услуги нужен?');
-//     }
+  getAllServicePrices: () => {
+    let sum = 0;
 
-//     do {
-//       servicePrice = prompt('Сколько это будет стоить?');
-//     } while (!isNumber(servicePrice)); {
+    for (let i = 0; i < 2; i++) {
+      let servicePrice = 0;
 
-//       sum += Number(servicePrice);
+      if (i === 0) {
+        appData.service1 = prompt('Какой дополнительный тип услуги нужен?');
+      } else if (i === 1) {
+        appData.service2 = prompt('Какой дополнительный тип услуги нужен?');
+      }
 
-//     }
+      do {
+        servicePrice = prompt('Сколько это будет стоить?');
+      }
+      while (!appData.isNumber(servicePrice)); {
 
-//   }
-//   return sum;
-// };
+        sum += +servicePrice;
+      }
+    }
+    return sum;
+  },
+
+  getFullPrice: () => {
+    return appData.screenPrice + appData.allServicePrices;
+  },
+
+  getServicePercentPrices: () => {
+    return appData.fullPrice - (appData.fullPrice * (appData.rollback / 100));
+  },
+
+  getTitle: () => {
+    return appData.title.trim()[0].toUpperCase() + appData.title.trim().substr(1).toLowerCase();
+  },
+
+  getRollbackMessage: () => {
+    if (appData.fullPrice >= 30000) {
+      return 'Даем скидку в 10%';
+    } else if (appData.fullPrice >= 15000 && appData.fullPrice < 30000) {
+      return 'Даем скидку в 5%';
+    } else if (appData.fullPrice >= 0 && appData.fullPrice < 15000) {
+      return 'Скидка не предусмотрена';
+    } else {
+      return 'Что то пошло не так';
+    }
+  },
+
+  logger: () => {
+    for (let key in appData) {
+      console.log('Ключ: ' + key + ' ' + 'Значение:' + appData[key]);
+    }
+
+    console.log(appData.fullPrice);
+    console.log(appData.servicePercentPrice);
+  },
+};
+
+appData.start();
 
 
-// const showTypeOf = (variable) => {
-//   console.log(variable, typeof variable);
-// };
+//мусорный блок
 
-// function getFullPrice() {
-//   return screenPrice + allServicePrices;
-// }
-
-// const getServicePercentPrices = () => {
-//   return fullPrice - (fullPrice * (rollback / 100));
-// };
-
-// const getTittle = () => {
-//   return title.trim()[0].toUpperCase() + title.trim().substr(1).toLowerCase();
-// };
-
-// //функциональный блок
-
-// const getRollbackMessage = () => {
-//   if (fullPrice >= 30000) {
-//     return 'Даем скидку в 10%';
-//   } else if (fullPrice >= 15000 && fullPrice < 30000) {
-//     return 'Даем скидку в 5%';
-//   } else if (fullPrice >= 0 && fullPrice < 15000) {
-//     return 'Скидка не предусмотрена';
-//   } else {
-//     return 'Что то пошло не так';
-//   }
-// };
-
-// //мусорный блок
-// asking();
-// getScreenPrice();
-// allServicePrices = getAllServicePrices();
-// fullPrice = getFullPrice();
-// servicePercentPrice = getServicePercentPrices();
-// title = getTitle();
-
-// showTypeOf(title);
-// showTypeOf(screenPrice);
-// showTypeOf(adaptive);
-
-// console.log('screenPrice', screenPrice);
-// console.log('allServicePrices', allServicePrices);
-// console.log(getRollbackMessage(fullPrice));
-// console.log(typeof title);
-// console.log(typeof fullPrice);
-// console.log(typeof adaptive);
-// console.log(screens.length);
-// console.log(servicePercentPrice);
-// console.log('Стоимость верстки экранов ' + screenPrice + ' рублей\nСтоимость разработки сайта ' + fullPrice + ' рублей');
 
 
 // let key = 'city';
@@ -130,8 +122,31 @@
 
 // console.log(person);
 
-let array = [1, 2, 3, 4, 5];
+// let array = ['Apple', 'Orange', 'Banana'];
 
-array.length = 0; //очистка массива
+// array.push('Kiwi'); //добавляет в самый конец
+// array.unshift('Papaya', 'Mango'); //добавляет в самое начало
+//просто меняют исходный массив
 
-console.log(array);
+
+// array.pop(); //удаляет с конца
+// array.shift(); //удаляет с начала
+//просто меняют исходный массив и возвращают элемент, который забирают
+
+// array.sort() //по алфавиту 
+// array.reverse() //разворачивает массив
+
+// array.join(\n) // превращает массив в строку, в сколбках можно указать, чем элементы будут разделены
+//только возвращают
+
+// for ()
+
+// const obj = {
+//   name: 'Alex',
+//   age: 33,
+//   isStudent: false,
+// }
+
+// for (let key in obj) {
+//   console.log('Ключ: ' + key + ' ' + 'Значение:' + obj[key])
+// }
