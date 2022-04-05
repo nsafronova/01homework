@@ -9,15 +9,14 @@ const appData = {
   fullPrice: 0,
   servicePercentPrice: 0,
   allServicePrices: 0,
-  service1: '',
-  service2: '',
+  services: {},
   rollback: 25,
   start: () => {
     appData.asking();
-    appData.allServicePrices = appData.getAllServicePrices();
-    appData.fullPrice = appData.getFullPrice();
-    appData.servicePercentPrice = appData.getServicePercentPrices();
-    appData.title = appData.getTitle();
+    appData.getAllServicePrices();
+    appData.getFullPrice();
+    appData.getServicePercentPrices();
+    appData.getTitle();
     appData.logger();
 
   },
@@ -30,6 +29,17 @@ const appData = {
     }
     while (!appData.isNumber(appData.screenPrice));
 
+    for (let i = 0; i < 2; i++) {
+      let name = prompt('Какой дополнительный тип услуги нужен?');
+      let price = 0;
+
+      do {
+        price = prompt('Сколько это будет стоить?');
+      } while (!appData.isNumber(price));
+
+      appData.services[name] = +price;
+    }
+
     appData.adaptive = confirm('Нужен ли адаптив на сайте?');
   },
 
@@ -38,38 +48,21 @@ const appData = {
   },
 
   getAllServicePrices: () => {
-    let sum = 0;
-
-    for (let i = 0; i < 2; i++) {
-      let servicePrice = 0;
-
-      if (i === 0) {
-        appData.service1 = prompt('Какой дополнительный тип услуги нужен?');
-      } else if (i === 1) {
-        appData.service2 = prompt('Какой дополнительный тип услуги нужен?');
-      }
-
-      do {
-        servicePrice = prompt('Сколько это будет стоить?');
-      }
-      while (!appData.isNumber(servicePrice)); {
-
-        sum += +servicePrice;
-      }
+    for (let key in appData.services) {
+      appData.allServicePrices += appData.services[key]
     }
-    return sum;
   },
 
   getFullPrice: () => {
-    return appData.screenPrice + appData.allServicePrices;
+    appData.fullPrice = appData.screenPrice + appData.allServicePrices;
   },
 
   getServicePercentPrices: () => {
-    return appData.fullPrice - (appData.fullPrice * (appData.rollback / 100));
+    appData.servicePercentPrice = appData.fullPrice - (appData.fullPrice * (appData.rollback / 100));
   },
 
   getTitle: () => {
-    return appData.title.trim()[0].toUpperCase() + appData.title.trim().substr(1).toLowerCase();
+    appData.title = appData.title.trim()[0].toUpperCase() + appData.title.trim().substr(1).toLowerCase();
   },
 
   getRollbackMessage: () => {
