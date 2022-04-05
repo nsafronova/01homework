@@ -57,7 +57,7 @@ const appData = {
         price = prompt('Сколько это будет стоить?');
       } while (!appData.isNumber(price));
 
-      appData.services[name] = +price;
+      appData.services[name + [i]] = +price;
     }
 
     appData.adaptive = confirm('Нужен ли адаптив на сайте?');
@@ -112,6 +112,7 @@ const appData = {
     console.log(appData.fullPrice);
     console.log(appData.servicePercentPrice);
     console.log(appData.screens);
+    console.log(appData.services);
   },
 };
 
