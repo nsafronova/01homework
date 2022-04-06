@@ -1,122 +1,142 @@
 'use strict';
 
-const appData = {
+const title = document.getElementsByTagName('h1')[0];
 
-  title: '',
-  screens: [],
-  screenPrice: 0,
-  adaptive: true,
-  fullPrice: 0,
-  servicePercentPrice: 0,
-  allServicePrices: 0,
-  services: {},
-  rollback: 25,
-  start: () => {
-    appData.asking();
-    appData.addPrices();
-    appData.getFullPrice();
-    appData.getServicePercentPrices();
-    appData.getTitle();
-    appData.logger();
+const actionButton = document.getElementsByClassName('handler_btn');
 
-  },
-  asking: () => {
-    do {
-      appData.title = prompt('Как называется ваш проект?', 'Калькулятор Верстки');
-      console.log(typeof appData.title);
-      console.log(appData.title);
-    } while (appData.isNumber(appData.title));
+const plusButton = document.querySelector('.screen-btn');
 
-    for (let i = 0; i < 2; i++) {
-      let name;
-      let price = 0;
-      do {
-        name = prompt('Какие типы экранов нужно разработать?', 'Простые, Сложные, Интерактивные');
-      }
-      while (appData.isNumber(name));
-      do {
-        price = +prompt('Сколько будет стоить данная работа?');
-      }
-      while (!appData.isNumber(price));
+const otherItems1 = document.querySelectorAll('.other-items + .percent');
+const otherItems2 = document.querySelectorAll('.other-items + .number');
 
-      appData.screens.push({
-        id: i,
-        name: name,
-        price: price
-      });
-    }
 
-    for (let i = 0; i < 2; i++) {
-      let name;
-      let price = 0;
-      do {
-        name = prompt('Какой дополнительный тип услуги нужен?');
-      } while (appData.isNumber(name));
+const rollbackTo = document.querySelector('.rollback [type="range"]');
 
-      do {
-        price = prompt('Сколько это будет стоить?');
-      } while (!appData.isNumber(price));
+const rollbackPrecent = document.querySelector('.rollback [class="range-value"]');
 
-      appData.services[name + [i]] = +price;
-    }
+const rightInputs = document.getElementsByClassName('total-input');
 
-    appData.adaptive = confirm('Нужен ли адаптив на сайте?');
-  },
+let screensAll = document.querySelectorAll('.screen');
+console.log(otherItems1);
+console.log(screensAll);
 
-  addPrices: () => {
+// const appData = {
 
-    appData.screenPrice = appData.screens.reduce(function (sum, item) {
-      return sum + item.price
-    }, 0);
+//   title: '',
+//   screens: [],
+//   screenPrice: 0,
+//   adaptive: true,
+//   fullPrice: 0,
+//   servicePercentPrice: 0,
+//   allServicePrices: 0,
+//   services: {},
+//   rollback: 25,
+//   start: () => {
+//     appData.asking();
+//     appData.addPrices();
+//     appData.getFullPrice();
+//     appData.getServicePercentPrices();
+//     appData.getTitle();
+//     appData.logger();
 
-    // for (let screen of appData.screens) {
-    //   appData.screenPrice += screen.price;
-    // }
+//   },
+//   asking: () => {
+//     do {
+//       appData.title = prompt('Как называется ваш проект?', 'Калькулятор Верстки');
+//       console.log(typeof appData.title);
+//       console.log(appData.title);
+//     } while (appData.isNumber(appData.title));
 
-    for (let key in appData.services) {
-      appData.allServicePrices += appData.services[key];
-    }
-  },
-  isNumber: (num) => {
-    return !isNaN(parseFloat(num)) && isFinite(num); //лучшая проверка на число 
-  },
+//     for (let i = 0; i < 2; i++) {
+//       let name;
+//       let price = 0;
+//       do {
+//         name = prompt('Какие типы экранов нужно разработать?', 'Простые, Сложные, Интерактивные');
+//       }
+//       while (appData.isNumber(name));
+//       do {
+//         price = +prompt('Сколько будет стоить данная работа?');
+//       }
+//       while (!appData.isNumber(price));
 
-  getFullPrice: () => {
-    appData.fullPrice = appData.screenPrice + appData.allServicePrices;
-  },
+//       appData.screens.push({
+//         id: i,
+//         name: name,
+//         price: price
+//       });
+//     }
 
-  getServicePercentPrices: () => {
-    appData.servicePercentPrice = appData.fullPrice - (appData.fullPrice * (appData.rollback / 100));
-  },
+//     for (let i = 0; i < 2; i++) {
+//       let name;
+//       let price = 0;
+//       do {
+//         name = prompt('Какой дополнительный тип услуги нужен?');
+//       } while (appData.isNumber(name));
 
-  getTitle: () => {
-    appData.title = appData.title.trim()[0].toUpperCase() + appData.title.trim().substr(1).toLowerCase();
-  },
+//       do {
+//         price = prompt('Сколько это будет стоить?');
+//       } while (!appData.isNumber(price));
 
-  getRollbackMessage: () => {
-    if (appData.fullPrice >= 30000) {
-      return 'Даем скидку в 10%';
-    } else if (appData.fullPrice >= 15000 && appData.fullPrice < 30000) {
-      return 'Даем скидку в 5%';
-    } else if (appData.fullPrice >= 0 && appData.fullPrice < 15000) {
-      return 'Скидка не предусмотрена';
-    } else {
-      return 'Что то пошло не так';
-    }
-  },
+//       appData.services[name + [i]] = +price;
+//     }
 
-  logger: () => {
-    // for (let key in appData) {
-    //   console.log('Ключ: ' + key + ' ' + 'Значение:' + appData[key]);
-    // }
-    console.log(appData.fullPrice);
-    console.log(appData.servicePercentPrice);
-    console.log(appData.screens);
-    console.log(appData.services);
-  },
-};
+//     appData.adaptive = confirm('Нужен ли адаптив на сайте?');
+//   },
 
-appData.start();
+//   addPrices: () => {
+
+//     appData.screenPrice = appData.screens.reduce(function (sum, item) {
+//       return sum + item.price
+//     }, 0);
+
+//     // for (let screen of appData.screens) {
+//     //   appData.screenPrice += screen.price;
+//     // }
+
+//     for (let key in appData.services) {
+//       appData.allServicePrices += appData.services[key];
+//     }
+//   },
+//   isNumber: (num) => {
+//     return !isNaN(parseFloat(num)) && isFinite(num); //лучшая проверка на число 
+//   },
+
+//   getFullPrice: () => {
+//     appData.fullPrice = appData.screenPrice + appData.allServicePrices;
+//   },
+
+//   getServicePercentPrices: () => {
+//     appData.servicePercentPrice = appData.fullPrice - (appData.fullPrice * (appData.rollback / 100));
+//   },
+
+//   getTitle: () => {
+//     appData.title = appData.title.trim()[0].toUpperCase() + appData.title.trim().substr(1).toLowerCase();
+//   },
+
+//   getRollbackMessage: () => {
+//     if (appData.fullPrice >= 30000) {
+//       return 'Даем скидку в 10%';
+//     } else if (appData.fullPrice >= 15000 && appData.fullPrice < 30000) {
+//       return 'Даем скидку в 5%';
+//     } else if (appData.fullPrice >= 0 && appData.fullPrice < 15000) {
+//       return 'Скидка не предусмотрена';
+//     } else {
+//       return 'Что то пошло не так';
+//     }
+//   },
+
+//   logger: () => {
+//     // for (let key in appData) {
+//     //   console.log('Ключ: ' + key + ' ' + 'Значение:' + appData[key]);
+//     // }
+//     console.log(appData.fullPrice);
+//     console.log(appData.servicePercentPrice);
+//     console.log(appData.screens);
+//     console.log(appData.services);
+//   },
+// };
+
+// appData.start();
 
 
 //мусорный блок
